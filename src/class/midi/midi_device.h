@@ -70,6 +70,7 @@ uint32_t tud_midi_n_write24    (uint8_t itf, uint8_t jack_id, uint8_t b1, uint8_
 
 bool tud_midi_n_receive        (uint8_t itf, uint8_t packet[4]);
 bool tud_midi_n_send           (uint8_t itf, uint8_t const packet[4]);
+uint32_t tud_midi_n_send_buf       (uint8_t itf, uint8_t *buf, uint32_t length);
 
 //--------------------------------------------------------------------+
 // Application API (Single Interface)
@@ -82,6 +83,7 @@ static inline uint32_t tud_midi_write      (uint8_t jack_id, uint8_t const* buff
 static inline uint32_t tudi_midi_write24   (uint8_t jack_id, uint8_t b1, uint8_t b2, uint8_t b3);
 static inline bool     tud_midi_receive    (uint8_t packet[4]);
 static inline bool     tud_midi_send       (uint8_t const packet[4]);
+static inline uint32_t tud_midi_send_buf   (uint8_t *buf, uint32_t length);
 
 //--------------------------------------------------------------------+
 // Application Callback API (weak is optional)
@@ -137,6 +139,11 @@ static inline bool tud_midi_receive (uint8_t packet[4])
 static inline bool tud_midi_send (uint8_t const packet[4])
 {
   return tud_midi_n_send(0, packet);
+}
+
+static inline uint32_t tud_midi_send_buf (uint8_t *buf, uint32_t length)
+{
+  return tud_midi_n_send_buf(0, buf,length);
 }
 
 //--------------------------------------------------------------------+
