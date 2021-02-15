@@ -68,9 +68,13 @@ uint32_t tud_midi_n_write      (uint8_t itf, uint8_t jack_id, uint8_t const* buf
 static inline
 uint32_t tud_midi_n_write24    (uint8_t itf, uint8_t jack_id, uint8_t b1, uint8_t b2, uint8_t b3);
 
-bool tud_midi_n_receive        (uint8_t itf, uint8_t packet[4]);
-bool tud_midi_n_send           (uint8_t itf, uint8_t const packet[4]);
-uint32_t tud_midi_n_send_buf       (uint8_t itf, uint8_t *buf, uint32_t length);
+bool     tud_midi_n_receive        (uint8_t itf, uint8_t packet[4]);
+bool     tud_midi_n_send           (uint8_t itf, uint8_t const packet[4]);
+
+uint32_t tud_midi_n_send_buf   (uint8_t itf, uint8_t *buf, uint32_t length);
+uint32_t tud_midi_n_write_available(uint8_t itf);
+bool     tud_midi_n_queue(uint8_t itf, uint8_t const packet[4]);
+void     tud_midi_n_write_flush(uint8_t itf);
 
 //--------------------------------------------------------------------+
 // Application API (Single Interface)
@@ -83,7 +87,11 @@ static inline uint32_t tud_midi_write      (uint8_t jack_id, uint8_t const* buff
 static inline uint32_t tudi_midi_write24   (uint8_t jack_id, uint8_t b1, uint8_t b2, uint8_t b3);
 static inline bool     tud_midi_receive    (uint8_t packet[4]);
 static inline bool     tud_midi_send       (uint8_t const packet[4]);
+
 static inline uint32_t tud_midi_send_buf   (uint8_t *buf, uint32_t length);
+static inline bool     tud_midi_queue      (uint8_t const packet[4]);
+static inline uint32_t tud_midi_write_available(void);
+static inline void     tud_midi_write_flush(void);
 
 //--------------------------------------------------------------------+
 // Application Callback API (weak is optional)
@@ -145,6 +153,22 @@ static inline uint32_t tud_midi_send_buf (uint8_t *buf, uint32_t length)
 {
   return tud_midi_n_send_buf(0, buf,length);
 }
+
+static inline bool tud_midi_queue(uint8_t const packet[4]){
+  return tud_midi_n_queue(0,packet);
+}
+
+static inline uint32_t tud_midi_write_available ()
+{
+  return tud_midi_n_write_available(0);
+}
+
+static inline void tud_midi_write_flush ()
+{
+  return tud_midi_n_write_flush(0);
+}
+
+
 
 //--------------------------------------------------------------------+
 // Internal Class Driver API
