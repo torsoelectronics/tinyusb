@@ -73,7 +73,7 @@ bool     tud_midi_n_send           (uint8_t itf, uint8_t const packet[4]);
 
 uint32_t tud_midi_n_send_buf   (uint8_t itf, uint8_t *buf, uint32_t length);
 uint32_t tud_midi_n_write_available(uint8_t itf);
-bool     tud_midi_n_queue(uint8_t itf, uint8_t const packet[4]);
+uint16_t     tud_midi_n_queue(uint8_t itf, uint8_t const packet[4]);
 void     tud_midi_n_write_flush(uint8_t itf);
 
 //--------------------------------------------------------------------+
@@ -89,7 +89,7 @@ static inline bool     tud_midi_receive    (uint8_t packet[4]);
 static inline bool     tud_midi_send       (uint8_t const packet[4]);
 
 static inline uint32_t tud_midi_send_buf   (uint8_t *buf, uint32_t length);
-static inline bool     tud_midi_queue      (uint8_t const packet[4]);
+static inline uint16_t     tud_midi_queue      (uint8_t const packet[4]);
 static inline uint32_t tud_midi_write_available(void);
 static inline void     tud_midi_write_flush(void);
 
@@ -154,7 +154,7 @@ static inline uint32_t tud_midi_send_buf (uint8_t *buf, uint32_t length)
   return tud_midi_n_send_buf(0, buf,length);
 }
 
-static inline bool tud_midi_queue(uint8_t const packet[4]){
+static inline uint16_t tud_midi_queue(uint8_t const packet[4]){
   return tud_midi_n_queue(0,packet);
 }
 

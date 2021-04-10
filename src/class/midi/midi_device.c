@@ -288,18 +288,17 @@ uint32_t tud_midi_n_write_available(uint8_t itf) {
   return tu_fifo_remaining(&midi->tx_ff);
 }
 
-bool tud_midi_n_queue(uint8_t itf, uint8_t const packet[4]) {
+uint16_t tud_midi_n_queue(uint8_t itf, uint8_t const packet[4]) {
   midid_interface_t* midi = &_midid_itf[itf];
 
   if (midi->itf_num == 0) {
     return 0;
   }
 
-  if (tu_fifo_remaining(&midi->tx_ff) < 4) return false;
+  if (tu_fifo_remaining(&midi->tx_ff) < 4) return 0;
 
-  tu_fifo_write_n(&midi->tx_ff, packet, 4);
+  return tu_fifo_write_n(&midi->tx_ff, packet, 4);
 
-  return true;
 }
 
 void tud_midi_n_write_flush(uint8_t itf) {
